@@ -7,7 +7,9 @@ import GuessHistory from "@/components/GuessHistory";
 import {loadFriendsEpisode} from "@/lib/loadFriendsEpisode";
 import RedactedScene from "@/components/RedactedScene";
 import RedactedText from "@/components/RedactedText";
-import {atom} from 'jotai'
+import {atom, useAtom} from 'jotai'
+import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
 
 export const gameWonAtom = atom<boolean>(false);
 export const guessedWordsAtom = atom<Set<string>>(new Set<string>()); // TODO: Use atomWithStorage
@@ -40,6 +42,8 @@ type FriendleProps = {
 }
 
 export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
+  const [isGameWon] = useAtom(gameWonAtom);
+
   // TODO: RWD for mobile :(
   return (
     <>
@@ -47,6 +51,7 @@ export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
         <title>Friendle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
+      {isGameWon && <ConfettiRain/>}
       <main className="flex justify-center p-8 gap-x-8 scroll-smooth text-gray-900 bg-amber-400">
         <div className="h-fit sticky top-8 flex flex-col bg-white shadow-xl rounded-xl p-6">
           <div className="h-screen-3/4 p-8 flex flex-col rounded-lg border-4 border-dashed border-amber-200">
@@ -79,5 +84,12 @@ function SceneSeparator() {
       <div className="whitespace-nowrap text-gray-300 text-xs">scene break</div>
       <div className="border-b-2 w-full border-gray-200"/>
     </div>
+  )
+}
+
+function ConfettiRain() {
+  const {width, height} = useWindowSize()
+  return (
+    <Confetti width={width} height={height}/>
   )
 }
