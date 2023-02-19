@@ -28,10 +28,7 @@ export default function GuessForm() {
         return new Set(prevState.add(normalizedWord));
       });
       // Check if the game is won (all redacted words in title have been guessed)
-      console.log(titleRedactedWords);
-      console.log(normalizedWord);
       titleRedactedWords.delete(normalizedWord);
-      console.log(titleRedactedWords);
       if (titleRedactedWords.size === 0) {
         setIsGameWon(true)
         // TODO: Confetti!
