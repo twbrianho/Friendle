@@ -7,7 +7,7 @@ import GuessHistory from "@/components/GuessHistory";
 import {loadFriendsEpisode} from "@/lib/loadFriendsEpisode";
 import RedactedScene from "@/components/RedactedScene";
 import RedactedText from "@/components/RedactedText";
-import {atom, useSetAtom} from 'jotai'
+import {atom} from 'jotai'
 
 export const gameWonAtom = atom<boolean>(false);
 export const guessedWordsAtom = atom<Set<string>>(new Set<string>()); // TODO: Use atomWithStorage
@@ -40,10 +40,7 @@ type FriendleProps = {
 }
 
 export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
-  const setGameWon = useSetAtom(gameWonAtom);
-  const setGuessedWords = useSetAtom(guessedWordsAtom);
-  const setHighlightedWord = useSetAtom(highlightedWordAtom);
-
+  // TODO: RWD for mobile :(
   return (
     <>
       <Head>
@@ -60,13 +57,13 @@ export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
         <div className="w-full p-6 max-w-4xl bg-white shadow-xl rounded-xl">
           <div className="p-10 rounded-lg border-4 border-dashed border-amber-200">
             <Image src={friendleLogo} alt="logo" className="mt-4 w-full max-w-xs mx-auto"></Image>
-            <div className="mt-12">
-              <div className="font-semibold text-2xl"><RedactedText text={episodeTitle as string} isTitle={true}/></div>
-              <div className="flex flex-col text-gray-800">
-                {friendsScenes.map<React.ReactNode>((scene) => (
-                  <RedactedScene key={scene.scene_id} scene={scene}/>
-                )).reduce((prev, curr, index) => [prev, <SceneSeparator key={index}/>, curr])}
-              </div>
+            <div className="mt-12 mb-4 font-semibold text-2xl">
+              <RedactedText text={episodeTitle as string} isTitle={true}/>
+            </div>
+            <div className="flex flex-col text-gray-800 gap-y-2">
+              {friendsScenes.map<React.ReactNode>((scene) => (
+                <RedactedScene key={scene.scene_id} scene={scene}/>
+              )).reduce((prev, curr, index) => [prev, <SceneSeparator key={index}/>, curr])}
             </div>
           </div>
         </div>
@@ -77,10 +74,10 @@ export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
 
 function SceneSeparator() {
   return (
-    <div className="flex justify-center items-center gap-x-2 px-16">
-      <div className="border-b-2 w-full border-gray-300"/>
-      <div className="whitespace-nowrap text-gray-400 text-xs">scene break</div>
-      <div className="border-b-2 w-full border-gray-300"/>
+    <div className="flex justify-center items-center gap-x-2 w-3/4 max-w-md mx-auto">
+      <div className="border-b-2 w-full border-gray-200"/>
+      <div className="whitespace-nowrap text-gray-300 text-xs">scene break</div>
+      <div className="border-b-2 w-full border-gray-200"/>
     </div>
   )
 }

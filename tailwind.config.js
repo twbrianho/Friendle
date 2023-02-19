@@ -13,9 +13,12 @@ module.exports = {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
         mono: ["Inconsolata", ...defaultTheme.fontFamily.mono],
       },
+      width: {
+        "76": "19rem",
+      },
       height: {
         "screen-3/4": "75vh",
-      }
+      },
     },
   },
   plugins: [],
