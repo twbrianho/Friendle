@@ -1,57 +1,86 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import {RefObject, useState} from "react";
 import friendleLogo from "../images/friendle.svg";
 import GuessForm from "@/components/GuessForm";
-import {FriendsEpisodeData, GuessData} from "@/lib/types";
+import {FriendsSceneData} from "@/lib/types";
 import GuessHistory from "@/components/GuessHistory";
 import {loadFriendsEpisode} from "@/lib/loadFriendsEpisode";
 import RedactedScene from "@/components/RedactedScene";
 import RedactedText from "@/components/RedactedText";
+import {atom, useSetAtom} from 'jotai'
+
+export const gameWonAtom = atom<boolean>(false);
+export const guessedWordsAtom = atom<Set<string>>(new Set<string>()); // TODO: Use atomWithStorage
+export const highlightedWordAtom = atom<string | null>(null);
+
+export const wordCounts = new Map<string, number>(); // Words are normalized in this map
+export const titleRedactedWords = new Set<string>(); // Words are normalized in this set
 
 export async function getStaticProps() {
-  const friendsEpisodeData = await loadFriendsEpisode(1, 1);
+  const season = 1;
+  const episode = 1;
+  const friendsEpisodeData = await loadFriendsEpisode(season, episode);
+
+  // Load 3 random (but consecutive) scenes from episode
+  const numScenes = friendsEpisodeData.scenes.length;
+  const startingSceneIndex = Math.floor(Math.random() * (numScenes - 3));
+  const friendsScenes = friendsEpisodeData.scenes.slice(startingSceneIndex, startingSceneIndex + 3);
+
   return {
     props: {
-      friendsEpisodeData,
+      episodeTitle: friendsEpisodeData.title,
+      friendsScenes,
     },
   }
 }
 
 type FriendleProps = {
-  friendsEpisodeData: FriendsEpisodeData;
+  episodeTitle: string;
+  friendsScenes: FriendsSceneData[];
 }
 
-export default function Friendle({friendsEpisodeData}: FriendleProps) {
-  const [guessedWords, setGuessedWords] = useState<Map<string, GuessData>>(new Map());
-  const [highlightedWord, setHighlightedWord] = useState<string | null>(null);
+export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
+  const setGameWon = useSetAtom(gameWonAtom);
+  const setGuessedWords = useSetAtom(guessedWordsAtom);
+  const setHighlightedWord = useSetAtom(highlightedWordAtom);
 
   return (
     <>
       <Head>
         <title>Friendle</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
-      <main className="flex justify-center p-8 gap-x-8 scroll-smooth">
-        <div className="h-fit sticky top-8 flex flex-col w-full max-w-sm bg-white shadow-xl rounded-xl p-6">
-          <div className="rounded-lg border-4 border-dashed border-amber-200 p-8">
-            <GuessForm setGuessedWords={setGuessedWords}/>
-            <GuessHistory guessedWords={guessedWords}/>
+      <main className="flex justify-center p-8 gap-x-8 scroll-smooth text-gray-900 bg-amber-400">
+        <div className="h-fit sticky top-8 flex flex-col bg-white shadow-xl rounded-xl p-6">
+          <div className="h-screen-3/4 p-8 flex flex-col rounded-lg border-4 border-dashed border-amber-200">
+            <GuessForm/>
+            <GuessHistory/>
           </div>
         </div>
-        <div className="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6">
-          <div className="rounded-lg border-4 border-dashed border-amber-200 p-10">
-            <Image src={friendleLogo} alt="logo" className="w-full max-w-xs mx-auto"></Image>
+        <div className="w-full p-6 max-w-4xl bg-white shadow-xl rounded-xl">
+          <div className="p-10 rounded-lg border-4 border-dashed border-amber-200">
+            <Image src={friendleLogo} alt="logo" className="mt-4 w-full max-w-xs mx-auto"></Image>
             <div className="mt-12">
-              <div className="font-semibold text-2xl"><RedactedText text={friendsEpisodeData.title as string}/></div>
-              <div className="divide-y-4 divide-double">
-              {friendsEpisodeData.scenes.map((scene) => (
-                <RedactedScene key={scene.scene_id} scene={scene}/>
-              ))}
+              <div className="font-semibold text-2xl"><RedactedText text={episodeTitle as string} isTitle={true}/></div>
+              <div className="flex flex-col text-gray-800">
+                {friendsScenes.map<React.ReactNode>((scene) => (
+                  <RedactedScene key={scene.scene_id} scene={scene}/>
+                )).reduce((prev, curr, index) => [prev, <SceneSeparator key={index}/>, curr])}
               </div>
             </div>
           </div>
         </div>
       </main>
     </>
+  )
+}
+
+function SceneSeparator() {
+  return (
+    <div className="flex justify-center items-center gap-x-2 px-16">
+      <div className="border-b-2 w-full border-gray-300"/>
+      <div className="whitespace-nowrap text-gray-400 text-xs">scene break</div>
+      <div className="border-b-2 w-full border-gray-300"/>
+    </div>
   )
 }

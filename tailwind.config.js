@@ -10,7 +10,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
         mono: ["Inconsolata", ...defaultTheme.fontFamily.mono],
+      },
+      height: {
+        "screen-3/4": "75vh",
       }
     },
   },

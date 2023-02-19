@@ -1,3 +1,3 @@
-export function cleanGuess(guess: string): string {
-  return guess.replace(/[^a-zA-Z]/gi, '').toLowerCase();
+export function normalizeWord(word: string): string {
+  return word.normalize().toLowerCase().replace(/[^a-z]/gi, '');
 }

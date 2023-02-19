@@ -7,7 +7,7 @@ type RedactedSceneProps = {
 
 export default function RedactedScene({scene}: RedactedSceneProps) {
   return (
-    <div className="py-8 font-mono leading-tight text-sm">
+    <div className="py-4 font-mono leading-snug text-sm">
       {scene.utterances.map((utterance) => (
         <RedactedUtterance key={utterance.utterance_id} utterance={utterance}/>
       ))}

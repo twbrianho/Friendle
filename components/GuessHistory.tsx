@@ -1,29 +1,25 @@
-import {GuessData} from "@/lib/types";
 import GuessHistoryItem from "@/components/GuessHistoryItem";
+import {guessedWordsAtom, wordCounts} from "@/pages";
+import {useAtom} from "jotai";
+import {normalizeWord} from "@/lib/stringFormatting";
 
-type GuessHistoryProps = {
-  guessedWords: Map<string, GuessData>;
-}
+export default function GuessHistory() {
+  const [guessedWords] = useAtom(guessedWordsAtom);
 
-export default function GuessHistory({guessedWords}: GuessHistoryProps) {
   return (
-    <div className="h-96 overflow-y-scroll py-2">
-      <table className="w-full table-auto text-left">
-        <thead className="sticky top-0 bg-white">
-        {
-          guessedWords.size > 0 && <tr>
-            <th>#</th>
-            <th>Guess</th>
-            <th>Hits</th>
-          </tr>
-        }
-        </thead>
-        <tbody className="divide-y divide-gray-300">
-        {Array.from(guessedWords.entries()).map(([guessedWord, guessData], index) => (
-          <GuessHistoryItem key={index} index={index+1} guessedWord={guessedWord} hits={guessData.hits}/>
+    <>
+      <div className="pt-4 w-72 grid grid-cols-8 gap-4">
+        <div className="col-span-1 font-semibold">#</div>
+        <div className="col-span-5 font-semibold">Guess</div>
+        <div className="col-span-2 font-semibold">Hits</div>
+        <div className="col-span-8 border-b-2"></div>
+      </div>
+      <div className="text-gray-800 pt-4 overflow-y-scroll w-72 grid grid-cols-8 gap-4">
+        {Array.from(guessedWords.entries()).map(([word, _], index) => (
+          <GuessHistoryItem key={index} index={index + 1} guessedWord={word}
+                            hits={wordCounts.get(normalizeWord(word)) || 0}/>
         )).reverse()}
-        </tbody>
-      </table>
-    </div>
+      </div>
+    </>
   );
 }

@@ -20,7 +20,7 @@ export default function RedactedUtterance({utterance}: RedactedUtteranceProps) {
         return <RedactedText key={speaker} text={speaker}/>
       }
     );
-    speakers = <span>{listOfSpeakers.reduce((prev, curr) => [prev, ', ', curr])}: </span>
+    speakers = <div className="px-1 py-0.5 inline-block rounded bg-gray-800 text-white text-xs mr-2">{listOfSpeakers.reduce((prev, curr) => [prev, ' & ', curr])}</div>
   }
 
   return (
