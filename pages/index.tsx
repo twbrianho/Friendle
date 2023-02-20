@@ -61,7 +61,7 @@ export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
         </div>
         <div className="w-full p-6 max-w-4xl bg-white shadow-xl rounded-xl">
           <div className="p-10 rounded-lg border-4 border-dashed border-amber-200">
-            <Image src={friendleLogo} alt="logo" className="mt-4 w-full max-w-xs mx-auto"></Image>
+            <Image src={friendleLogo} alt="logo" className="mt-4 w-full max-w-xs mx-auto"/>
             <div className="mt-12 mb-4 font-semibold text-2xl">
               <RedactedText text={episodeTitle as string} isTitle={true}/>
             </div>
