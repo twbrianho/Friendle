@@ -1,8 +1,13 @@
-import {FormEventHandler} from "react";
-import {COMMON_WORDS} from "@/lib/constants";
-import {normalizeWord} from "@/lib/stringFormatting";
-import {atom, useAtom, useSetAtom} from "jotai";
-import {gameWonAtom, guessedWordsAtom, highlightedWordAtom, titleRedactedWords} from "@/pages";
+import { FormEventHandler } from "react";
+import { COMMON_WORDS } from "@/lib/constants";
+import { normalizeWord } from "@/lib/stringFormatting";
+import { atom, useAtom, useSetAtom } from "jotai";
+import {
+  gameWonAtom,
+  guessedWordsAtom,
+  highlightedWordAtom,
+  titleRedactedWords,
+} from "@/pages";
 
 const guessInputAtom = atom<string>("");
 const guessFeedbackAtom = atom<string>("");
@@ -18,11 +23,13 @@ export default function GuessForm() {
     event.preventDefault(); // Don't reload the page
     const normalizedWord = normalizeWord(guessInput);
     if (normalizedWord.length === 0) {
-      setGuessFeedback("No valid characters were entered. Please use English.")
-    } else if (guessedWords.has(normalizedWord)){
+      setGuessFeedback("No valid characters were entered. Please use English.");
+    } else if (guessedWords.has(normalizedWord)) {
       // TODO: Scroll to previous guess and highlight it
-    } else if (COMMON_WORDS.includes(normalizedWord)){
-      setGuessFeedback("This word is already revealed by default (if it exists).")
+    } else if (COMMON_WORDS.includes(normalizedWord)) {
+      setGuessFeedback(
+        "This word is already revealed by default (if it exists)."
+      );
       // Highlight word
       setHighlightedWord(normalizedWord);
     } else {
@@ -35,7 +42,7 @@ export default function GuessForm() {
       // Check if the game is won (all redacted words in title have been guessed)
       titleRedactedWords.delete(normalizedWord);
       if (titleRedactedWords.size === 0) {
-        setIsGameWon(true)
+        setIsGameWon(true);
         // TODO: Confetti!
       }
     }
@@ -51,19 +58,20 @@ export default function GuessForm() {
         <input
           type="text"
           name="word"
-          className="block w-full px-4 py-2 border border-gray-800 rounded-md"
+          className="block w-full rounded-md border border-gray-800 px-4 py-2"
           value={guessInput}
           onChange={(event) => setGuessInput(event.target.value)}
           autoComplete="off"
+          maxLength={25}
         />
         <button
           type="submit"
-          className="bg-gray-800 text-white px-4 py-2 rounded-md"
+          className="rounded-md bg-gray-800 px-4 py-2 text-white"
         >
           Guess
         </button>
       </div>
-      <div className="mt-1 italic text-red-500 text-xs">{guessFeedback}</div>
+      <div className="mt-1 text-xs italic text-red-500">{guessFeedback}</div>
     </form>
   );
 }

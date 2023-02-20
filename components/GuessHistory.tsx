@@ -10,7 +10,7 @@ export default function GuessHistory() {
     <>
       <div className="grid w-76 grid-cols-8 gap-4 pt-4">
         <div className="col-span-1 font-semibold">#</div>
-        <div className="col-span-5 font-semibold">Guess</div>
+        <div className="col-span-5 px-1 font-semibold">Guess</div>
         <div className="col-span-2 font-semibold">Hits</div>
         <div className="col-span-8 border-b-2"></div>
       </div>

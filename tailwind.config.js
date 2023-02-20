@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -14,7 +14,7 @@ module.exports = {
         mono: ["Inconsolata", ...defaultTheme.fontFamily.mono],
       },
       width: {
-        "76": "19rem",
+        76: "19rem",
       },
       height: {
         "screen-3/4": "75vh",
@@ -22,4 +22,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
