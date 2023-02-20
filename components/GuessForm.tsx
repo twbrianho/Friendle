@@ -23,6 +23,8 @@ export default function GuessForm() {
       // TODO: Scroll to previous guess and highlight it
     } else if (COMMON_WORDS.includes(normalizedWord)){
       setGuessFeedback("This word is already revealed by default (if it exists).")
+      // Highlight word
+      setHighlightedWord(normalizedWord);
     } else {
       // Valid guess, record it!
       setGuessedWords((prevState) => {
