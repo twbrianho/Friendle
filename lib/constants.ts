@@ -222,7 +222,7 @@ export const EPISODE_NAMES = new Map([
   ["s07_e22", "The One With Chandler's Dad"],
   ["s07_e23", "The One With Monica and Chandler's Wedding, Part 1"],
   ["s07_e24", "The One With Monica and Chandler's Wedding, Part 2"],
-  ["s08_e01", "The One After \"I Do\""],
+  ["s08_e01", 'The One After "I Do"'],
   ["s08_e02", "The One With The Red Sweater"],
   ["s08_e03", "The One Where Rachel Tells"],
   ["s08_e04", "The One With The Video Tape"],

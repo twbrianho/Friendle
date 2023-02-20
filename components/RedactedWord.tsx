@@ -11,6 +11,7 @@ type RedactedWordProps = {
 export default function RedactedWord({ word }: RedactedWordProps) {
   const [isGameWon] = useAtom(gameWonAtom);
 
+  // NOTE: This will run twice on local while StrictMode is enabled, but only once on production.
   useEffect(
     () => {
       // Help count the number of times a word appears in the puzzle
