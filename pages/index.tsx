@@ -52,7 +52,7 @@ export default function Friendle({episodeTitle, friendsScenes}: FriendleProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
       {isGameWon && <ConfettiRain/>}
-      <main className="flex justify-center p-8 gap-x-8 scroll-smooth text-gray-900 bg-amber-400">
+      <main className="flex justify-center p-8 gap-x-8 scroll-smooth text-gray-900 bg-amber-400 selection:bg-amber-300 selection:text-gray-900">
         <div className="h-fit sticky top-8 flex flex-col bg-white shadow-xl rounded-xl p-6">
           <div className="h-screen-3/4 p-8 flex flex-col rounded-lg border-4 border-dashed border-amber-200">
             <GuessForm/>
