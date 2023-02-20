@@ -2,7 +2,7 @@ import {FormEventHandler} from "react";
 import {COMMON_WORDS} from "@/lib/constants";
 import {normalizeWord} from "@/lib/stringFormatting";
 import {atom, useAtom, useSetAtom} from "jotai";
-import {gameWonAtom, guessedWordsAtom, titleRedactedWords} from "@/pages";
+import {gameWonAtom, guessedWordsAtom, highlightedWordAtom, titleRedactedWords} from "@/pages";
 
 const guessInputAtom = atom<string>("");
 const guessFeedbackAtom = atom<string>("");
@@ -11,6 +11,7 @@ export default function GuessForm() {
   const [guessedWords, setGuessedWords] = useAtom(guessedWordsAtom);
   const [guessInput, setGuessInput] = useAtom(guessInputAtom);
   const [guessFeedback, setGuessFeedback] = useAtom(guessFeedbackAtom);
+  const setHighlightedWord = useSetAtom(highlightedWordAtom);
   const setIsGameWon = useSetAtom(gameWonAtom);
 
   const guessSubmitHandler: FormEventHandler<HTMLFormElement> = (event) => {
@@ -27,6 +28,8 @@ export default function GuessForm() {
       setGuessedWords((prevState) => {
         return new Set(prevState.add(normalizedWord));
       });
+      // Highlight word
+      setHighlightedWord(normalizedWord);
       // Check if the game is won (all redacted words in title have been guessed)
       titleRedactedWords.delete(normalizedWord);
       if (titleRedactedWords.size === 0) {

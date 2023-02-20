@@ -13,8 +13,8 @@ export const gameWonAtom = atom<boolean>(false);
 export const guessedWordsAtom = atom<Set<string>>(new Set<string>()); // TODO: Use atomWithStorage
 export const highlightedWordAtom = atom<string | null>(null);
 
-export const wordCounts = new Map<string, number>(); // Words are normalized in this map
-export const titleRedactedWords = new Set<string>(); // Words are normalized in this set
+export const wordCounts = new Map<string, number>(); // Populates when script is rendered.
+export const titleRedactedWords = new Set<string>(); // Populates when title is rendered.
 
 export async function getStaticProps() {
   const season = 1;

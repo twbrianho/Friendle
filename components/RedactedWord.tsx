@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {useAtom} from "jotai";
 import {gameWonAtom, guessedWordsAtom, wordCounts} from "@/pages";
 import {normalizeWord} from "@/lib/stringFormatting";
+import UncoveredWord from "@/components/UncoveredWord";
 
 type RedactedWordProps = {
   word: string;
@@ -18,5 +19,5 @@ export default function RedactedWord({word}: RedactedWordProps) {
 
   const [guessedWords] = useAtom(guessedWordsAtom);
   const isGuessed = guessedWords.has(normalizeWord(word));
-  return isGuessed || isGameWon ? <span>{word}</span> : <span className="bg-gray-200 text-gray-200">{"?".repeat(word.length)}</span>;
+  return isGuessed || isGameWon ? <UncoveredWord word={word}/> : <span className="bg-gray-200 text-gray-200">{"?".repeat(word.length)}</span>;
 }
