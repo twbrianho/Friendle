@@ -11,7 +11,7 @@ export default function GuessHistory() {
       <div className="grid w-76 grid-cols-8 gap-4 pt-4">
         <div className="col-span-1 font-semibold">#</div>
         <div className="col-span-5 px-1 font-semibold">Guess</div>
-        <div className="col-span-2 font-semibold">Hits</div>
+        <div className="col-span-2 px-2 font-semibold">Hits</div>
         <div className="col-span-8 border-b-2"></div>
       </div>
       <div className="grid w-76 grid-cols-8 gap-4 overflow-y-scroll pt-4 text-gray-800">

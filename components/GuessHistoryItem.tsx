@@ -16,7 +16,7 @@ export default function GuessHistoryItem({
   const [highlightedWord, setHighlightedWord] = useAtom(highlightedWordAtom);
 
   // Words with 0 hits just display a plain old "0"
-  let hitsCell = <div className="col-span-2 py-1">{hits}</div>;
+  let hitsCell = <div className="col-span-2 px-2 py-1">{hits}</div>;
   let highlightedClass = "";
   if (hits > 0) {
     if (highlightedWord === guessedWord) {
