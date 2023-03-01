@@ -25,6 +25,7 @@ export default function GuessForm() {
     if (normalizedWord.length === 0) {
       setGuessFeedback("No valid characters were entered. Please use English.");
     } else if (guessedWords.has(normalizedWord)) {
+      setGuessFeedback("");
       // TODO: Scroll to previous guess and highlight it
     } else if (COMMON_WORDS.includes(normalizedWord)) {
       setGuessFeedback(
@@ -33,6 +34,7 @@ export default function GuessForm() {
       // Highlight word
       setHighlightedWord(normalizedWord);
     } else {
+      setGuessFeedback("");
       // Valid guess, record it!
       setGuessedWords((prevState) => {
         return new Set(prevState.add(normalizedWord));
