@@ -105,5 +105,13 @@ function SceneSeparator() {
 
 function ConfettiRain() {
   const { width, height } = useWindowSize();
-  return <Confetti width={width} height={height} />;
+  return (
+    <div className="fixed top-0 z-10 h-screen w-screen">
+      <Confetti
+        width={width}
+        height={height}
+        colors={["#ea1f1d", "#33b3e8", "#fabd0e"]}
+      />
+    </div>
+  );
 }
